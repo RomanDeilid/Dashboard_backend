@@ -1,0 +1,13 @@
+version: '2.26.1'
+
+services:
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=3e1q0p0p8i2w0p0p0p
+      - POSTGRES_USER=Admin
+      - POSTGRES_DB=first_bd
+    restart:
+      always
