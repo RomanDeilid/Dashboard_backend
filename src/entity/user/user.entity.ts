@@ -22,11 +22,15 @@ export class User {
     @Column({ type: "varchar", length: 16})
     password:string
 
+    @Column({ type: "varchar", length: 5})
+    role
+
     @CreateDateColumn()
     created_at:Date
 
+
     @ManyToMany((type) => Company)
     @JoinTable()
-    company_id: Company[]
+    company: Company[]
 
 }
