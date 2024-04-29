@@ -1,13 +1,22 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  postgres:
-    image: postgres:alpine
+  db:
+    image: postgres
+    container_name: local_pgdb
+    restart:  on-failure
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=3e1q0p0p8i2w0p0p0p
-      - POSTGRES_USER=Admin
-      - POSTGRES_DB=first_bd
-    restart:
-      on-failure
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: on-failure
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@domain-name.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+
