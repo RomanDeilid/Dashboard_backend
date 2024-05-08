@@ -8,6 +8,7 @@ const AppDataSource = new DataSource({
     password: "postgres",
     database: "postgres",
     entities:["src/**/*.entity.ts"],
+    // entities:[join(__dirname, '**', '*.entity.{ts,js}')],
     migrations :["src/migrations/*.ts"]
 })
 export default AppDataSource;

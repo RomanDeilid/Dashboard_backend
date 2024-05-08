@@ -18,9 +18,9 @@ export class UserRepository extends Repository<User> {
 // export class UserRepository extends Repository<User> {
 
     public async findAll(): Promise<User[]> {
-        console.log("Repository")
-        console.log(this)
-        console.log(this.find({}))
+        // console.log("Repository")
+        // console.log(this)
+        // console.log(this)
         return await this.find({});
     }
 
@@ -29,18 +29,16 @@ export class UserRepository extends Repository<User> {
         return await this.findOne({ where: {id: userId} });
     }
 
-    public async createItem( createProductDto: CreateUserDto): Promise<User> {
-        const { username , password, role } = createProductDto;
-        const user = new User();
-        user.username = username;
-        user.password = password;
-        user.role = role;
+    public async createItem( { username , password, role }: CreateUserDto): Promise<User> {
+        const user =this.create({username, password, role});
+        // user.username = username;
+        // user.password = username;
+        // user.role = username;
         await this.save(user);
         return user;
     }
 
-    public async updateById(userId: number, updateUserDto: UpdateUserDto,): Promise<User> {
-        const { username, password, role } = updateUserDto;
+    public async updateById(userId: number, { username , password, role }: UpdateUserDto,): Promise<User> {
         const product = await this.findOne({ where: {id: userId} });
         product.username = username;
         product.password = password;

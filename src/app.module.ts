@@ -14,9 +14,10 @@ import {join} from "path"
     username: "postgres",
     password: "postgres",
     database: "postgres",
+    entities:[join(__dirname, '**', '*.entity.{ts,js}')],
+    // entities:["src/**/*.entity.ts"],
+    // entities:['dist/**/*.entity{.ts,.js}'],
     // entities:[join(__dirname, '**', '*.entity.{ts,js}')],
-    entities:["dick/**/*.entity.ts"],
-
     migrations :["dist/migration/**/*.ts"]}),UserModule],
   controllers: [AppController],
   providers: [AppService],
