@@ -8,7 +8,7 @@ import {
     Unique,
     JoinColumn
 } from "typeorm"
-import {Sheet} from "../sheet_task/sheet.entity";
+import {Sheet} from "../sheets/sheet.entity";
 @Unique(["name","sheet"])
 @Entity()
 export class Task {

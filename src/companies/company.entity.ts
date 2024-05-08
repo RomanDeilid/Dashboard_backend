@@ -1,5 +1,4 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable} from "typeorm"
-import {User} from "../user/user.entity";
 
 @Entity()
 export class Company {

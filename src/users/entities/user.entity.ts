@@ -1,15 +1,12 @@
+import {Company} from "../../companies/company.entity";
 import {
-    Entity,
-    PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
-    OneToMany,
-    Unique,
+    Entity,
+    JoinTable,
     ManyToMany,
-    JoinTable
-} from "typeorm"
-import {Company} from "../company/company.entity";
-
+    PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 export class User {
@@ -23,10 +20,11 @@ export class User {
     password:string
 
     @Column({ type: "varchar", length: 5})
-    role
+    role:string
 
     @CreateDateColumn()
     created_at:Date
+
 
 
     @ManyToMany((type) => Company)
