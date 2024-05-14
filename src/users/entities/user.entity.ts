@@ -25,8 +25,6 @@ export class User {
     @CreateDateColumn()
     created_at:Date
 
-
-
     @ManyToMany((type) => Company)
     @JoinTable()
     company: Company[]

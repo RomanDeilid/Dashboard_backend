@@ -12,19 +12,18 @@ import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import {UserService} from "./user.service";
 
-@Controller('/api/v1/users')///????
+@Controller('/api/v1/users')
 export class UserController {
   constructor(private userService: UserService) { }
 
   @Get()
   public async findAll(): Promise<User[]> {
-    // console.log("controller")
-    return await this.userService.findAll();
+    return await this.userService.getAll();
   }
 
   @Get('/:Id')
   public async findOne(@Param('Id') userId: number): Promise<User> {
-    return await this.userService.findOne(userId);
+  return await this.userService.getByFilters(userId);
   }
 
   @Post()
@@ -39,7 +38,8 @@ export class UserController {
       @Body() updateUserDto: UpdateUserDto,
       @Param('Id') userId: number,
   ): Promise<User> {
-    return await this.userService.update(
+
+    return await this.userService.updateById(
         userId,
         updateUserDto,
     )
@@ -49,9 +49,9 @@ export class UserController {
   public async delete(@Param('Id') userId: number): Promise<void> {
     const user = await this.findOne(userId);
     if (!user) {
-      throw new NotFoundException(`Product #${user} not found`);
+      throw new NotFoundException(`Product #${userId} not found`);
     }
 
-    return await this.userService.remove(userId);
+    return await this.userService.deleteById(userId);
   }
 }
