@@ -1,4 +1,4 @@
-import {Company} from "../../companies/company.entity";
+import {Company} from "../../companies/entities/company.entity";
 import {
     Column,
     CreateDateColumn,

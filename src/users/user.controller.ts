@@ -47,11 +47,6 @@ export class UserController {
 
   @Delete('/:Id')
   public async delete(@Param('Id') userId: number): Promise<void> {
-    const user = await this.findOne(userId);
-    if (!user) {
-      throw new NotFoundException(`Product #${userId} not found`);
-    }
-
-    return await this.userService.deleteById(userId);
+    await this.userService.deleteById(userId);
   }
 }

@@ -47,11 +47,6 @@ export class SheetController {
 
   @Delete('/:Id')
   public async delete(@Param('Id') sheetId: number): Promise<void> {
-    const sheet = await this.findOne(sheetId);
-    if (!sheet) {
-      throw new NotFoundException(`Product #${sheetId} not found`);
-    }
-
-    return await this.sheetService.deleteById(sheetId);
+    await this.sheetService.deleteById(sheetId);
   }
 }

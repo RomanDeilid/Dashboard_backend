@@ -47,11 +47,6 @@ export class TaskController {
 
   @Delete('/:Id')
   public async delete(@Param('Id') taskId: number): Promise<void> {
-    const task = await this.findOne(taskId);
-    if (!task) {
-      throw new NotFoundException(`Product #${taskId} not found`);
-    }
-
-    return await this.taskService.deleteById(taskId);
+    await this.taskService.deleteById(taskId);
   }
 }

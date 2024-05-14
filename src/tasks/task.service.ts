@@ -40,10 +40,16 @@ export class TaskService {
         if (!await this.taskRepository.findById(taskId)) {
         throw new NotFoundException(`Task #${taskId} not found`);
     }
+        const task = await this.taskRepository.updateById(taskId,updateTaskDto);
+
         return this.taskRepository.updateById(taskId, updateTaskDto);
     }
 
     public async deleteById(taskId: number): Promise<void> {
+        const task = await this.getByFilters(taskId);
+        if (!task) {
+            throw new NotFoundException(`Task #${taskId} not found`);
+        }
         await this.taskRepository.deleteById(taskId);
     }
 }

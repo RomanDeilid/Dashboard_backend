@@ -44,6 +44,12 @@ export class UserService {
     }
 
     public async deleteById(userId: number): Promise<void> {
+
+        const user = await this.getByFilters(userId);
+        if (!user) {
+            throw new NotFoundException(`User #${userId} not found`);
+
+        }
         await this.userRepository.deleteById(userId);
     }
 }

@@ -44,6 +44,10 @@ export class SheetService {
     }
 
     public async deleteById(sheetId: number): Promise<void> {
+        const sheet = await this.getByFilters(sheetId);
+        if (!sheet) {
+            throw new NotFoundException(`Sheet #${sheetId} not found`);
+        }
         await this.sheetRepository.deleteById(sheetId);
     }
 }
