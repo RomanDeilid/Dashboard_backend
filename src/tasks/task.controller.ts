@@ -12,7 +12,7 @@ import { CreateTaskDto } from './entities/createTaskDto';
 import {TaskService} from "./task.service";
 import {UpdateTaskDto} from "./entities/updateTaskDto";
 
-@Controller('/api/v1/users')
+@Controller('/api/v1/task')
 export class TaskController {
   constructor(private taskService: TaskService) { }
 
