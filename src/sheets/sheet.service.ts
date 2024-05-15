@@ -11,11 +11,11 @@ export class SheetService {
         @InjectRepository(SheetRepository)
         private   sheetRepository: SheetRepository) {}
 
-    public async  getAll(): Promise<Sheet[]> {
+    public async  findAll(): Promise<Sheet[]> {
         return await this.sheetRepository.findAll();
     }
 
-    public async getByFilters (sheetId: number): Promise<Sheet> {
+    public async findById (sheetId: number): Promise<Sheet> {
         const sheet = await this.sheetRepository.findById(sheetId);
         if (!sheet) {
             throw new NotFoundException(`Sheet #${sheetId} not found`);
@@ -23,7 +23,7 @@ export class SheetService {
         return sheet;
     }
 
-    public async create(
+    public async createItem(
         createSheetDto: CreateSheetDto,
     ): Promise<Sheet> {
         try {
@@ -44,7 +44,7 @@ export class SheetService {
     }
 
     public async deleteById(sheetId: number): Promise<void> {
-        const sheet = await this.getByFilters(sheetId);
+        const sheet = await this.findById(sheetId);
         if (!sheet) {
             throw new NotFoundException(`Sheet #${sheetId} not found`);
         }

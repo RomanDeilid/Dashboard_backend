@@ -10,5 +10,4 @@ import {CompanyRepository} from "./company.repositories";
   controllers: [CompanyController],
   providers: [CompanyService, CompanyRepository],
 })
-export class CompanyModule {
-}
+export class CompanyModule {}

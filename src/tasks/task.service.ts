@@ -11,11 +11,11 @@ export class TaskService {
         @InjectRepository(TaskRepository)
         private   taskRepository: TaskRepository) {}
 
-    public async  getAll(): Promise<Task[]> {
+    public async  findAll(): Promise<Task[]> {
         return await this.taskRepository.findAll();
     }
 
-    public async getByFilters (taskId: number): Promise<Task> {
+    public async findById (taskId: number): Promise<Task> {
         const task = await this.taskRepository.findById(taskId);
         if (!task) {
             throw new NotFoundException(`Task #${taskId} not found`);
@@ -23,7 +23,7 @@ export class TaskService {
         return task;
     }
 
-    public async create(
+    public async createItem(
         createTaskDto: CreateTaskDto,
     ): Promise<Task> {
         try {
@@ -40,13 +40,11 @@ export class TaskService {
         if (!await this.taskRepository.findById(taskId)) {
         throw new NotFoundException(`Task #${taskId} not found`);
     }
-        const task = await this.taskRepository.updateById(taskId,updateTaskDto);
-
         return this.taskRepository.updateById(taskId, updateTaskDto);
     }
 
     public async deleteById(taskId: number): Promise<void> {
-        const task = await this.getByFilters(taskId);
+        const task = await this.findById(taskId);
         if (!task) {
             throw new NotFoundException(`Task #${taskId} not found`);
         }

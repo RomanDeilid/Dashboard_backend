@@ -4,18 +4,17 @@ import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import { UserRepository } from './user.repositories';
 import {InjectRepository} from "@nestjs/typeorm";
-
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UserRepository)
         private   userRepository: UserRepository) {}
 
-    public async  getAll(): Promise<User[]> {
+    public async  findAll(): Promise<User[]> {
         return await this.userRepository.findAll();
     }
 
-    public async getByFilters (userId: number): Promise<User> {
+    public async findById (userId: number): Promise<User> {
         const user = await this.userRepository.findById(userId);
         if (!user) {
             throw new NotFoundException(`User #${userId} not found`);
@@ -23,7 +22,7 @@ export class UserService {
         return user;
     }
 
-    public async create(
+    public async createItem(
         createUserDto: CreateUserDto,
     ): Promise<User> {
         try {
@@ -45,10 +44,9 @@ export class UserService {
 
     public async deleteById(userId: number): Promise<void> {
 
-        const user = await this.getByFilters(userId);
+        const user = await this.findById(userId);
         if (!user) {
             throw new NotFoundException(`User #${userId} not found`);
-
         }
         await this.userRepository.deleteById(userId);
     }

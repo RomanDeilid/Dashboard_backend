@@ -10,5 +10,4 @@ import {SheetRepository} from "./sheet.repositories";
   controllers: [SheetController],
   providers: [SheetService, SheetRepository],
 })
-export class SheetModule {
-}
+export class SheetModule {}

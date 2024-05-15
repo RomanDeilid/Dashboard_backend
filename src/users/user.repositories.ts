@@ -3,6 +3,7 @@ import { User } from "./entities/user.entity";
 import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import {Injectable} from "@nestjs/common";
+
 @Injectable()
 export class UserRepository extends Repository<User> {
      constructor(private dataSource: DataSource) {

@@ -3,6 +3,7 @@ import { Company} from "./entities/company.entity";
 import { CreateCompanyDto } from './entities/createCompanyDto';
 import { UpdateCompanyDto } from './entities/updateCompanyDto';
 import {Injectable} from "@nestjs/common";
+
 @Injectable()
 export class CompanyRepository extends Repository<Company> {
      constructor(private dataSource: DataSource) {

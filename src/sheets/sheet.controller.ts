@@ -5,7 +5,7 @@ import {
   Get,
   Patch,
   Param,
-  Delete, NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { Sheet } from './entities/sheet.entity';
 import { CreateSheetDto } from './entities/createSheetDto';
@@ -17,24 +17,24 @@ export class SheetController {
   constructor(private sheetService: SheetService) { }
 
   @Get()
-  public async findAll(): Promise<Sheet[]> {
-    return await this.sheetService.getAll();
+  public async findAll_sheet(): Promise<Sheet[]> {
+    return await this.sheetService.findAll();
   }
 
   @Get('/:Id')
-  public async findOne(@Param('Id') sheetId: number): Promise<Sheet> {
-  return await this.sheetService.getByFilters(sheetId);
+  public async findById_sheet(@Param('Id') sheetId: number): Promise<Sheet> {
+  return await this.sheetService.findById(sheetId);
   }
 
   @Post()
-  public async create(
+  public async create_sheet(
       @Body() createSheetDto: CreateSheetDto,
   ): Promise<Sheet> {
-    return await this.sheetService.create(createSheetDto);
+    return await this.sheetService.createItem(createSheetDto);
   }
 
   @Patch('/:Id')
-  public async update(
+  public async update_sheet(
       @Body() updateSheetDto: UpdateSheetDto,
       @Param('Id') sheetId: number,
   ): Promise<Sheet> {
@@ -46,7 +46,7 @@ export class SheetController {
   }
 
   @Delete('/:Id')
-  public async delete(@Param('Id') sheetId: number): Promise<void> {
+  public async delete_sheet(@Param('Id') sheetId: number): Promise<void> {
     await this.sheetService.deleteById(sheetId);
   }
 }

@@ -5,7 +5,7 @@ import {
   Get,
   Patch,
   Param,
-  Delete, NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { Task } from './entities/task.entity';
 import { CreateTaskDto } from './entities/createTaskDto';
@@ -17,24 +17,24 @@ export class TaskController {
   constructor(private taskService: TaskService) { }
 
   @Get()
-  public async findAll(): Promise<Task[]> {
-    return await this.taskService.getAll();
+  public async findAll_task(): Promise<Task[]> {
+    return await this.taskService.findAll();
   }
 
   @Get('/:Id')
-  public async findOne(@Param('Id') taskId: number): Promise<Task> {
-  return await this.taskService.getByFilters(taskId);
+  public async findById_task(@Param('Id') taskId: number): Promise<Task> {
+  return await this.taskService.findById(taskId);
   }
 
   @Post()
-  public async create(
+  public async create_task(
       @Body() createTaskDto: CreateTaskDto,
   ): Promise<Task> {
-    return await this.taskService.create(createTaskDto);
+    return await this.taskService.createItem(createTaskDto);
   }
 
   @Patch('/:Id')
-  public async update(
+  public async update_task(
       @Body() updateTaskDto: UpdateTaskDto,
       @Param('Id') taskId: number,
   ): Promise<Task> {
@@ -46,7 +46,7 @@ export class TaskController {
   }
 
   @Delete('/:Id')
-  public async delete(@Param('Id') taskId: number): Promise<void> {
+  public async delete_task(@Param('Id') taskId: number): Promise<void> {
     await this.taskService.deleteById(taskId);
   }
 }

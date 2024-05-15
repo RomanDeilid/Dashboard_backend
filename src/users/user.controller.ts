@@ -5,7 +5,7 @@ import {
   Get,
   Patch,
   Param,
-  Delete, NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './entities/createUserDto';
@@ -17,24 +17,24 @@ export class UserController {
   constructor(private userService: UserService) { }
 
   @Get()
-  public async findAll(): Promise<User[]> {
-    return await this.userService.getAll();
+  public async findAll_user(): Promise<User[]> {
+    return await this.userService.findAll();
   }
 
   @Get('/:Id')
-  public async findOne(@Param('Id') userId: number): Promise<User> {
-  return await this.userService.getByFilters(userId);
+  public async findById_user(@Param('Id') userId: number): Promise<User> {
+  return await this.userService.findById(userId);
   }
 
   @Post()
-  public async create(
+  public async create_user(
       @Body() createUserDto: CreateUserDto,
   ): Promise<User> {
-    return await this.userService.create(createUserDto);
+    return await this.userService.createItem(createUserDto);
   }
 
   @Patch('/:Id')
-  public async update(
+  public async update_user(
       @Body() updateUserDto: UpdateUserDto,
       @Param('Id') userId: number,
   ): Promise<User> {
@@ -46,7 +46,7 @@ export class UserController {
   }
 
   @Delete('/:Id')
-  public async delete(@Param('Id') userId: number): Promise<void> {
+  public async delete_user(@Param('Id') userId: number): Promise<void> {
     await this.userService.deleteById(userId);
   }
 }

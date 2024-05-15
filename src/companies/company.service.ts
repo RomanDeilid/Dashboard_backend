@@ -11,11 +11,11 @@ export class CompanyService {
         @InjectRepository(CompanyRepository)
         private   companyRepository: CompanyRepository) {}
 
-    public async  getAll(): Promise<Company[]> {
+    public async  findAll(): Promise<Company[]> {
         return await this.companyRepository.findAll();
     }
 
-    public async getByFilters (companyId: number): Promise<Company> {
+    public async findById (companyId: number): Promise<Company> {
         const company = await this.companyRepository.findById(companyId);
         if (!company) {
             throw new NotFoundException(`Company #${companyId} not found`);
@@ -23,7 +23,7 @@ export class CompanyService {
         return company;
     }
 
-    public async create(
+    public async createItem(
         createCompanyDto: CreateCompanyDto,
     ): Promise<Company> {
         try {
@@ -44,7 +44,7 @@ export class CompanyService {
     }
 
     public async deleteById(companyId: number): Promise<void> {
-        const company = await this.getByFilters(companyId);
+        const company = await this.findById(companyId);
         if (!company) {
             throw new NotFoundException(`Company #${companyId} not found`);
         }
