@@ -1,10 +1,6 @@
 import { MaxLength, IsNotEmpty, IsString } from 'class-validator';
-export enum Status {
-    Expired='Просрочен',
-    WORK='В работе',
-    COMPLETED="Выполнен",
-    WAIT="Ожидает действий"
-}
+import {TaskStatus} from "../../enums/tasks";
+
 export class CreateTaskDto {
     @IsString()
     @IsNotEmpty()
@@ -14,7 +10,7 @@ export class CreateTaskDto {
     @IsString()
     @IsNotEmpty()
     @MaxLength(16)
-    status: Status;
+    status: TaskStatus;
 
     @IsString()
     @IsNotEmpty()

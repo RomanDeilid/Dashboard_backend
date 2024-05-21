@@ -11,7 +11,12 @@ export class UserService {
         private   userRepository: UserRepository) {}
 
     public async  findAll(): Promise<User[]> {
-        return await this.userRepository.findAll();
+        try {
+            return await this.userRepository.findAll();
+        }
+        catch (e) {
+
+        }
     }
 
     public async findById (userId: number): Promise<User> {

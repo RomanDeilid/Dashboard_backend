@@ -7,9 +7,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
 
   pgadmin:
     image: dpage/pgadmin4
@@ -18,6 +18,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: postgres@domain-name.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-
+      PGADMIN_DEFAULT_EMAIL: process.env.LOGIN
+      PGADMIN_DEFAULT_PASSWORD: process.env.PASSWORD

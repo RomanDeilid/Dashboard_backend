@@ -3,6 +3,7 @@ import { User } from "./entities/user.entity";
 import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import {Injectable} from "@nestjs/common";
+import {CustomBadDataException, CustomNotFoundException} from "../exception/userException";
 
 @Injectable()
 export class UserRepository extends Repository<User> {
@@ -11,16 +12,34 @@ export class UserRepository extends Repository<User> {
      }
 
     public async findAll(): Promise<User[]> {
-        return await this.find({});
+         let users=await this.find({})
+        if (!users){
+            throw new CustomNotFoundException();
+        }
+         return users
     }
 
     public async findById (userId: number): Promise<User> {
-        return await this.findOne({ where: {id: userId} });
+        let user = await this.findOne({ where: {id: userId} });
+        if(!user){
+            throw new CustomBadDataException(String(userId));
+        }
+        return user;
     }
 
     public async createItem( { username , password, role }: CreateUserDto): Promise<User> {
-        const user = this.create({username, password, role});
-        await this.save(user);
+
+        if ( !username || !password || !role){
+            throw new CustomBadDataException( username+" "+password+" "+role);
+        }
+        try {
+            const user = this.create({username, password, role});
+        }
+        catch (e){
+            throw new CustomBadDataException( e.message);
+        }
+
+
         return user;
     }
 
