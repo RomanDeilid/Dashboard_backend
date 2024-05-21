@@ -6,10 +6,7 @@
    "private": true,
    "license": "UNLICENSED",
    "scripts": {
-
       "typeorm": "typeorm-ts-node-commonjs",
-      "nest": "nest",
-
       "migration:create": "npm run typeorm migration:create src/migrations/auto",
       "migration:generate ": "npm run typeorm migration:generate --  -d src/typeorm.config.ts  src/migrations/auto",
       "migration:revert": " npm run typeorm migration:revert -- -d src/typeorm.config.ts",
@@ -29,12 +26,16 @@
    },
    "dependencies": {
       "@nestjs/common": "^10.0.0",
+      "@nestjs/config": "^3.2.2",
       "@nestjs/core": "^10.0.0",
       "@nestjs/mapped-types": "^2.0.5",
       "@nestjs/platform-express": "^10.0.0",
       "@nestjs/typeorm": "^10.0.2",
+      "@next/env": "^14.2.3",
       "class-transformer": "^0.5.1",
       "class-validator": "^0.14.1",
+      "dotenv": "^16.4.5",
+      "dotenv-flow": "^4.1.0",
       "mongoose": "^6.2.2",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",

@@ -1,5 +1,6 @@
 .idea/
 .vscode/
+.evn
 node_modules/
 build/
 tmp/
