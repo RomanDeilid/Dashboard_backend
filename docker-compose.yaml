@@ -1,3 +1,4 @@
+
 version: "3.8"
 services:
   db:
@@ -18,5 +19,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: process.env.LOGIN
-      PGADMIN_DEFAULT_PASSWORD: process.env.PASSWORD
+      PGADMIN_DEFAULT_EMAIL: "postgres@domain-name.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
