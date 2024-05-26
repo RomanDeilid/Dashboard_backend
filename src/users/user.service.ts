@@ -23,6 +23,7 @@ export class UserService {
   public async findById(userId: number): Promise<User> {
    
      try {
+
      return await this.userRepository.findById(userId);
      }
       catch (error) {
@@ -32,6 +33,7 @@ export class UserService {
 
   public async createItem(createUserDto: CreateUserDto): Promise<User> {
     try {
+
       return await this.userRepository.createItem(createUserDto);
     } catch (error) {
         if (error.code=="23505"){
@@ -48,6 +50,7 @@ export class UserService {
     updateUserDto: UpdateUserDto,
   ): Promise<User> {
       try {
+
           return this.userRepository.updateById(userId, updateUserDto);
       }
       catch (error){

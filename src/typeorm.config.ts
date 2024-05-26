@@ -4,10 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.HOST,
-  port: +process.env.BD_PORT,
-  username: process.env.BD_USERNAME,
-  password: process.env.BD_PASSWORD,
-  database: process.env.DATABASE,
+  port: +process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.PASSWORD,
+  database: process.env.DB_NAME,
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
 });

@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './users/user.module';
 import { join } from 'path';
-import { TaskModule } from './tasks/task.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
@@ -17,10 +16,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.HOST,
-      port: +process.env.BD_PORT,
-      username: process.env.BD_USERNAME,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
       password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      database: process.env.DB_NAME,
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       migrations: ['dist/migration/**/*.ts'],
     }),

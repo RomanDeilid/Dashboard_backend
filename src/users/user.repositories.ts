@@ -12,6 +12,7 @@ export class UserRepository extends Repository<User> {
 
   public async findAll(): Promise<User[]> {
     const users = await this.find({});
+
     return users;
   }
 
@@ -20,6 +21,7 @@ export class UserRepository extends Repository<User> {
     if (!user) {
       throw new HttpException(` Bad request, user by ID=${userId} not found`, HttpStatus.BAD_REQUEST);
     }
+
     return user;
   }
 
@@ -33,8 +35,8 @@ export class UserRepository extends Repository<User> {
     if(!(role=="Admin" || role=="User") ){
       throw new HttpException(` Bad request, incorrect role="${role}" allowed("Admim","User")`, HttpStatus.BAD_REQUEST);
     }
-    return this.save(user);
 
+    return this.save(user);
   }
 
   public async updateById(
@@ -57,6 +59,7 @@ export class UserRepository extends Repository<User> {
 
     // await  this.update({id:userId},{username:username,password:password,role:role})
     await this.save(user);
+
     return user;
   }
 
