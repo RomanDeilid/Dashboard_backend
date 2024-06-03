@@ -6,7 +6,6 @@ import { UserModule } from './users/user.module';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

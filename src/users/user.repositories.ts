@@ -1,8 +1,9 @@
-import { Repository, DataSource } from 'typeorm';
+import { DataSource, Repository, UpdateResult } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { UserRole } from '../enums/users';
 
 @Injectable()
 export class UserRepository extends Repository<User> {
@@ -11,63 +12,41 @@ export class UserRepository extends Repository<User> {
   }
 
   public async findAll(): Promise<User[]> {
-    const users = await this.find({});
-
-    return users;
+    return await this.find({});
   }
 
   public async findById(userId: number): Promise<User> {
-    const user = await this.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new HttpException(` Bad request, user by ID=${userId} not found`, HttpStatus.BAD_REQUEST);
-    }
-
-    return user;
+    return await this.findOne({ where: { id: userId } });
   }
 
   public async createItem({
     username,
     password,
-    role,
   }: CreateUserDto): Promise<User> {
-
-    const user=await this.create({ username, password, role });
-    if(!(role=="Admin" || role=="User") ){
-      throw new HttpException(` Bad request, incorrect role="${role}" allowed("Admim","User")`, HttpStatus.BAD_REQUEST);
-    }
+    const role = UserRole.USER;
+    const user = await this.create({ username, password, role });
 
     return this.save(user);
   }
 
   public async updateById(
     userId: number,
-    { username, password, role }: UpdateUserDto,
+    { username, password }: UpdateUserDto,
   ): Promise<User> {
     const user = await this.findOne({ where: { id: userId } });
-    if(!user){
-      throw new HttpException(` Bad request, user by ID=${userId} not found`, HttpStatus.BAD_REQUEST);
-    }
-    if(!(await this.count({where: {username:username}})==1 && user.username==username)){
-      throw new HttpException(` Bad request, user name="${username}" engaged`, HttpStatus.BAD_REQUEST);
-    }
     user.username = username;
     user.password = password;
-    user.role = role;
-    if(!(role=="Admin" || role=="User") ){
-      throw new HttpException(` Bad request, incorrect role="${role}" allowed("Admim","User")`, HttpStatus.BAD_REQUEST);
-    }
-
-    // await  this.update({id:userId},{username:username,password:password,role:role})
     await this.save(user);
 
     return user;
   }
 
+  public async updateRoleById(userId: number): Promise<void> {
+    const user = await this.update(userId, { role: UserRole.ADMIN });
+  }
+
   public async deleteById(userId: number): Promise<void> {
     const user = await this.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new HttpException(` Bad request, user by ID=${userId} not found`, HttpStatus.BAD_REQUEST);
-    }
     await this.remove(user);
   }
 }
