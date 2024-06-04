@@ -23,8 +23,8 @@ export class UserRepository extends Repository<User> {
     username,
     password,
   }: CreateUserDto): Promise<User> {
-    const role = UserRole.USER;
-    const user = await this.create({ username, password, role });
+    // const role = UserRole.USER;
+    const user = await this.create({ username, password });
 
     return this.save(user);
   }
