@@ -1,11 +1,10 @@
-// @ts-ignore
-
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import { UserRepository } from './user.repositories';
 import { InjectRepository } from '@nestjs/typeorm';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -21,15 +20,12 @@ export class UserService {
     try {
       const user = await this.userRepository.findById(userId);
       if (!user) {
-        throw new HttpException(
-          ` Bad request, user by ID=${userId} not found`,
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new Error(` Bad request, user by ID=${userId} not found`);
       }
 
       return user;
     } catch (error) {
-      throw new HttpException(error.message, error.status);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -45,34 +41,40 @@ export class UserService {
     }
   }
 
-  public async updateRoleById(userId: number): Promise<void> {
-    await this.userRepository.updateRoleById(userId);
+  public async setRoleById(userId: number): Promise<void> {
+    try {
+      if (!(await this.userRepository.setRoleById(userId))) {
+        throw new Error(` Bad request, user by ID=${userId} not found`);
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   public async updateById(
     userId: number,
     updateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<void> {
     try {
-      const user = this.userRepository.updateById(userId, updateUserDto);
-      if (!user) {
-        throw new HttpException(
-          ` Bad request, user by ID=${userId} not found`,
-          HttpStatus.BAD_REQUEST,
-        );
+      if (!(await this.userRepository.updateById(userId, updateUserDto))) {
+        throw new Error(` Bad request, user by ID=${userId} not found`);
       }
-
-      return user;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      if (error.code == '23505') {
+        throw new HttpException(error.detail, HttpStatus.BAD_REQUEST);
+      } else {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
   public async deleteById(userId: number): Promise<void> {
     try {
-      await this.userRepository.deleteById(userId);
+      if (!(await this.userRepository.deleteById(userId))) {
+        throw new Error(` Bad request, user by ID=${userId} not found`);
+      }
     } catch (error) {
-      throw new HttpException(error.message, error.status);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 }

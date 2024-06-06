@@ -1,8 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './createUserDto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsString, MaxLength } from 'class-validator';
-import { UserRole } from '../../enums/users';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+
 export class UpdateUserDto {
   @ApiProperty({ example: 'Roma', description: ' уникальное имя пользователя' })
   @IsString()

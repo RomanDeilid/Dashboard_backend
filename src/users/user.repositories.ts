@@ -1,8 +1,8 @@
-import { DataSource, Repository, UpdateResult } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserRole } from '../enums/users';
 
 @Injectable()
@@ -19,11 +19,8 @@ export class UserRepository extends Repository<User> {
     return await this.findOne({ where: { id: userId } });
   }
 
-  public async createItem({
-    username,
-    password,
-  }: CreateUserDto): Promise<User> {
-    const user = await this.create({ username, password });
+  public async createItem(userDto: CreateUserDto): Promise<User> {
+    const user = this.create(userDto);
 
     return this.save(user);
   }
@@ -31,21 +28,20 @@ export class UserRepository extends Repository<User> {
   public async updateById(
     userId: number,
     { username, password }: UpdateUserDto,
-  ): Promise<User> {
-    const user = await this.findOne({ where: { id: userId } });
-    user.username = username;
-    user.password = password;
-    await this.save(user);
-
-    return user;
+  ): Promise<number> {
+    const update = await this.update(userId, {
+      username: username,
+      password: password,
+    });
+    return update.affected;
+  }
+  public async setRoleById(userId: number): Promise<number> {
+    const set = await this.update(userId, { role: UserRole.ADMIN });
+    return set.affected;
   }
 
-  public async updateRoleById(userId: number): Promise<void> {
-    const user = await this.update(userId, { role: UserRole.ADMIN });
-  }
-
-  public async deleteById(userId: number): Promise<void> {
-    const user = await this.findOne({ where: { id: userId } });
-    await this.remove(user);
+  public async deleteById(userId: number): Promise<number> {
+    const delet = await this.delete({ id: userId });
+    return delet.affected;
   }
 }

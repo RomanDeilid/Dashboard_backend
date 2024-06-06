@@ -13,8 +13,6 @@ import { CreateUserDto } from './entities/createUserDto';
 import { UpdateUserDto } from './entities/updateUserDto';
 import { UserService } from './user.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserRole } from '../enums/users';
-import { UpdateResult } from 'typeorm';
 
 @ApiTags('Users')
 @Controller('/api/v1/users')
@@ -30,8 +28,8 @@ export class UserController {
 
   @ApiOperation({ summary: 'просмотр одного пользователя по ID' })
   @ApiResponse({ status: 200, type: User })
-  @Get('/:Id')
-  public async findById(@Param('Id') userId: number): Promise<User> {
+  @Get('/:id')
+  public async findById(@Param('id') userId: number): Promise<User> {
     return await this.Service.findById(userId);
   }
 
@@ -43,25 +41,26 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Обновления пользователя по ID' })
-  @ApiResponse({ status: 200, type: User })
-  @Put('/:Id')
+  @ApiResponse({ status: 200 })
+  @Put('/:id')
   public async updateById(
     @Body() updateUserDto: UpdateUserDto,
-    @Param('Id') userId: number,
-  ): Promise<User> {
-    return await this.Service.updateById(userId, updateUserDto);
+    @Param('id') userId: number,
+  ): Promise<void> {
+    await this.Service.updateById(userId, updateUserDto);
   }
 
-  @ApiOperation({ summary: 'Обновления пользователя по ID' })
-  @ApiResponse({ status: 200, type: User })
-  @Patch('/:Id')
-  public async updateRoleById(@Param('Id') userId: number): Promise<void> {
-    await this.Service.updateRoleById(userId);
+  @ApiOperation({ summary: 'Задать роль Админа для пользователя по ID' })
+  @ApiResponse({ status: 200 })
+  @Patch('/:id')
+  public async setRoleById(@Param('id') userId: number): Promise<void> {
+    await this.Service.setRoleById(userId);
   }
 
   @ApiOperation({ summary: 'удаление пользователя по ID' })
-  @Delete('/:Id')
-  public async deleteById(@Param('Id') userId: number): Promise<void> {
+  @ApiResponse({ status: 200 })
+  @Delete('/:id')
+  public async deleteById(@Param('id') userId: number): Promise<void> {
     await this.Service.deleteById(userId);
   }
 }
