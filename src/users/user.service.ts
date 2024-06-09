@@ -41,9 +41,10 @@ export class UserService {
     }
   }
 
-  public async setRoleById(userId: number): Promise<void> {
+  public async setRoleById(userId: number, userRole: string): Promise<void> {
     try {
-      if (!(await this.userRepository.setRoleById(userId))) {
+      const setUser = await this.userRepository.setRoleById(userId, userRole);
+      if (!setUser) {
         throw new Error(` Bad request, user by ID=${userId} not found`);
       }
     } catch (error) {
@@ -56,7 +57,11 @@ export class UserService {
     updateUserDto: UpdateUserDto,
   ): Promise<void> {
     try {
-      if (!(await this.userRepository.updateById(userId, updateUserDto))) {
+      const updateUser = await this.userRepository.updateById(
+        userId,
+        updateUserDto,
+      );
+      if (!updateUser) {
         throw new Error(` Bad request, user by ID=${userId} not found`);
       }
     } catch (error) {
@@ -70,8 +75,10 @@ export class UserService {
 
   public async deleteById(userId: number): Promise<void> {
     try {
-      if (!(await this.userRepository.deleteById(userId))) {
+      const deletUser = await this.userRepository.deleteById(userId);
+      if (!deletUser) {
         throw new Error(` Bad request, user by ID=${userId} not found`);
+      } else {
       }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

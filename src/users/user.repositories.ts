@@ -35,8 +35,16 @@ export class UserRepository extends Repository<User> {
     });
     return update.affected;
   }
-  public async setRoleById(userId: number): Promise<number> {
-    const set = await this.update(userId, { role: UserRole.ADMIN });
+  public async setRoleById(userId: number, userRole: string): Promise<number> {
+    let set;
+    if (userRole == UserRole.ADMIN) {
+      set = await this.update(userId, { role: UserRole.ADMIN });
+    } else if (userRole == UserRole.USER) {
+      set = await this.update(userId, { role: UserRole.USER });
+    } else {
+      return 0;
+    }
+
     return set.affected;
   }
 
