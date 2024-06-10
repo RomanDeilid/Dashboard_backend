@@ -33,6 +33,7 @@ export class UserRepository extends Repository<User> {
       username: username,
       password: password,
     });
+
     return update.affected;
   }
 
@@ -41,11 +42,13 @@ export class UserRepository extends Repository<User> {
     userRole: UserRole,
   ): Promise<number> {
     const result = await this.update(userId, { role: userRole });
+
     return result.affected;
   }
 
   public async deleteById(userId: number): Promise<number> {
     const delet = await this.delete({ id: userId });
+
     return delet.affected;
   }
 }
