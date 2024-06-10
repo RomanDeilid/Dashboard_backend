@@ -1,9 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { CreateUserDto } from './entities/createUserDto';
-import { UpdateUserDto } from './entities/updateUserDto';
+import { CreateUserDto } from './dto/createUserDto';
+import { UpdateUserDto } from './dto/updateUserDto';
 import { UserRepository } from './user.repositories';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UpdateUserRoleDto } from './dto/updateUserRoleDto';
 
 @Injectable()
 export class UserService {
@@ -20,12 +21,15 @@ export class UserService {
     try {
       const user = await this.userRepository.findById(userId);
       if (!user) {
-        throw new Error(` Bad request, user by ID=${userId} not found`);
+        throw new Error();
       }
 
       return user;
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        ` Bad request, user by ID=${userId} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -34,21 +38,30 @@ export class UserService {
       return await this.userRepository.createItem(createUserDto);
     } catch (error) {
       if (error.code == '23505') {
-        throw new HttpException(error.detail, HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          'Bad request, this user already exists',
+          HttpStatus.BAD_REQUEST,
+        );
       } else {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
     }
   }
 
-  public async setRoleById(userId: number, userRole: string): Promise<void> {
+  public async setRoleById(
+    userId: number,
+    { role }: UpdateUserRoleDto,
+  ): Promise<void> {
     try {
-      const setUser = await this.userRepository.setRoleById(userId, userRole);
+      const setUser = await this.userRepository.setRoleById(userId, role);
       if (!setUser) {
-        throw new Error(` Bad request, user by ID=${userId} not found`);
+        throw new Error();
       }
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        ` Bad request, user by ID=${userId} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -62,13 +75,20 @@ export class UserService {
         updateUserDto,
       );
       if (!updateUser) {
-        throw new Error(` Bad request, user by ID=${userId} not found`);
+        throw new Error();
       }
     } catch (error) {
       if (error.code == '23505') {
-        throw new HttpException(error.detail, HttpStatus.BAD_REQUEST);
+        console.log(error);
+        throw new HttpException(
+          'Bad request, this user already exists',
+          HttpStatus.BAD_REQUEST,
+        );
       } else {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          ` Bad request, user by ID=${userId} not found`,
+          HttpStatus.BAD_REQUEST,
+        );
       }
     }
   }
@@ -77,11 +97,14 @@ export class UserService {
     try {
       const deletUser = await this.userRepository.deleteById(userId);
       if (!deletUser) {
-        throw new Error(` Bad request, user by ID=${userId} not found`);
+        throw new Error();
       } else {
       }
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        `Bad request, user by ID=${userId} not found`,
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

@@ -1,7 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { CreateUserDto } from './entities/createUserDto';
-import { UpdateUserDto } from './entities/updateUserDto';
+import { CreateUserDto } from './dto/createUserDto';
+import { UpdateUserDto } from './dto/updateUserDto';
 import { Injectable } from '@nestjs/common';
 import { UserRole } from '../enums/users';
 
@@ -35,17 +35,13 @@ export class UserRepository extends Repository<User> {
     });
     return update.affected;
   }
-  public async setRoleById(userId: number, userRole: string): Promise<number> {
-    let set;
-    if (userRole == UserRole.ADMIN) {
-      set = await this.update(userId, { role: UserRole.ADMIN });
-    } else if (userRole == UserRole.USER) {
-      set = await this.update(userId, { role: UserRole.USER });
-    } else {
-      return 0;
-    }
 
-    return set.affected;
+  public async setRoleById(
+    userId: number,
+    userRole: UserRole,
+  ): Promise<number> {
+    const result = await this.update(userId, { role: userRole });
+    return result.affected;
   }
 
   public async deleteById(userId: number): Promise<number> {

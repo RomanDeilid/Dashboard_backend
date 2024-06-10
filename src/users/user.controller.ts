@@ -10,10 +10,12 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { CreateUserDto } from './entities/createUserDto';
-import { UpdateUserDto } from './entities/updateUserDto';
+import { CreateUserDto } from './dto/createUserDto';
+import { UpdateUserDto } from './dto/updateUserDto';
 import { UserService } from './user.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateUserRoleDto } from './dto/updateUserRoleDto';
+
 @ApiTags('Users')
 @Controller('/api/v1/users')
 export class UserController {
@@ -47,18 +49,17 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @Param('id') userId: number,
   ): Promise<void> {
-    console.log(updateUserDto);
     await this.userService.updateById(userId, updateUserDto);
   }
 
   @ApiOperation({ summary: 'Задать роль для пользователя по ID' })
   @ApiResponse({ status: 200 })
-  @Patch('/:id')
+  @Patch('/roles/:id')
   public async setRoleById(
-    @Body() updateUserRole: any,
+    @Body() updateUserRole: UpdateUserRoleDto,
     @Param('id') userId: number,
   ): Promise<void> {
-    await this.userService.setRoleById(userId, updateUserRole.role);
+    await this.userService.setRoleById(userId, updateUserRole);
   }
 
   @ApiOperation({ summary: 'удаление пользователя по ID' })
