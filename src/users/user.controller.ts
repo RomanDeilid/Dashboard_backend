@@ -47,7 +47,7 @@ export class UserController {
   @Put('/:id')
   public async updateById(
     @Body() updateUserDto: UpdateUserDto,
-    @Param('id') userId: number,
+    @Param('id') userId: number
   ): Promise<void> {
     await this.userService.updateById(userId, updateUserDto);
   }
@@ -57,7 +57,7 @@ export class UserController {
   @Patch('/roles/:id')
   public async setRoleById(
     @Body() updateUserRole: UpdateUserRoleDto,
-    @Param('id') userId: number,
+    @Param('id') userId: number
   ): Promise<void> {
     await this.userService.setRoleById(userId, updateUserRole);
   }

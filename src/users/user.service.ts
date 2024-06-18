@@ -10,7 +10,7 @@ import { UpdateUserRoleDto } from './dto/updateUserRoleDto';
 export class UserService {
   constructor(
     @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    private userRepository: UserRepository
   ) {}
 
   public async findAll(): Promise<User[]> {
@@ -28,7 +28,7 @@ export class UserService {
     } catch (error) {
       throw new HttpException(
         ` Bad request, user by ID=${userId} not found`,
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }
@@ -40,7 +40,7 @@ export class UserService {
       if (error.code == '23505') {
         throw new HttpException(
           'Bad request, this user already exists',
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.BAD_REQUEST
         );
       } else {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ export class UserService {
 
   public async setRoleById(
     userId: number,
-    { role }: UpdateUserRoleDto,
+    { role }: UpdateUserRoleDto
   ): Promise<void> {
     try {
       const setUser = await this.userRepository.setRoleById(userId, role);
@@ -60,19 +60,19 @@ export class UserService {
     } catch (error) {
       throw new HttpException(
         ` Bad request, user by ID=${userId} not found`,
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }
 
   public async updateById(
     userId: number,
-    updateUserDto: UpdateUserDto,
+    updateUserDto: UpdateUserDto
   ): Promise<void> {
     try {
       const updateUser = await this.userRepository.updateById(
         userId,
-        updateUserDto,
+        updateUserDto
       );
       if (!updateUser) {
         throw new Error();
@@ -82,12 +82,12 @@ export class UserService {
         console.log(error);
         throw new HttpException(
           'Bad request, this user already exists',
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.BAD_REQUEST
         );
       } else {
         throw new HttpException(
           ` Bad request, user by ID=${userId} not found`,
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.BAD_REQUEST
         );
       }
     }
@@ -103,7 +103,7 @@ export class UserService {
     } catch (error) {
       throw new HttpException(
         `Bad request, user by ID=${userId} not found`,
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }

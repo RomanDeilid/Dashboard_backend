@@ -27,7 +27,7 @@ export class UserRepository extends Repository<User> {
 
   public async updateById(
     userId: number,
-    { username, password }: UpdateUserDto,
+    { username, password }: UpdateUserDto
   ): Promise<number> {
     const update = await this.update(userId, {
       username: username,
@@ -39,7 +39,7 @@ export class UserRepository extends Repository<User> {
 
   public async setRoleById(
     userId: number,
-    userRole: UserRole,
+    userRole: UserRole
   ): Promise<number> {
     const result = await this.update(userId, { role: userRole });
 

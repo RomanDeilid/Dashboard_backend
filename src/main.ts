@@ -13,7 +13,7 @@ async function bootstrap() {
       transformOptions: {
         enableImplicitConversion: true,
       },
-    }),
+    })
   );
   const options = new DocumentBuilder()
     .setTitle('ToDo List')
