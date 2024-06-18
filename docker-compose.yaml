@@ -1,3 +1,4 @@
+
 version: "3.8"
 services:
   db:
@@ -7,9 +8,10 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -17,6 +19,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: postgres@domain-name.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-
+      PGADMIN_DEFAULT_EMAIL: "postgres@domain-name.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"

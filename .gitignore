@@ -1,6 +1,10 @@
 .idea/
 .vscode/
+.evn
 node_modules/
 build/
 tmp/
 temp/
+/src/sheets/
+/src/tasks/
+/src/companies/
