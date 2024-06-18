@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './users/user.module';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import {SheetModule} from "./sheets/sheet.module";
+import {TaskModule} from "./tasks/task.module";
 
 @Module({
   imports: [
@@ -22,8 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       migrations: ['dist/migration/**/*.ts'],
     }),
-    UserModule,
-    // TaskModule,
+    UserModule, TaskModule, SheetModule, ConfigModule
   ],
   controllers: [AppController],
   providers: [AppService],
