@@ -41,9 +41,8 @@ export class SheetService {
           'Bad request, this sheet already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -61,28 +60,24 @@ export class SheetService {
       }
     } catch (error) {
       if (error.code == '23505') {
-        console.log(error);
         throw new HttpException(
           'Bad request, this sheet already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
+      }
         throw new HttpException(
           ` Bad request, sheet by ID=${sheetId} not found`,
           HttpStatus.BAD_REQUEST
         );
-      }
     }
   }
 
   public async deleteById(sheetId: number): Promise<void> {
     try {
-      const deletSheet = await this.sheetRepository.deleteById(sheetId);
-      if (!deletSheet) {
+      const deletedSheet = await this.sheetRepository.deleteById(sheetId);
+      if (!deletedSheet) {
         throw new Error();
-      } else {
-      }
-    } catch (error) {
+    }} catch (error) {
       throw new HttpException(
         `Bad request, sheet by ID=${sheetId} not found`,
         HttpStatus.BAD_REQUEST

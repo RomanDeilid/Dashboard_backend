@@ -41,9 +41,8 @@ export class CompanyService {
           'Bad request, this company already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -61,26 +60,23 @@ export class CompanyService {
       }
     } catch (error) {
       if (error.code == '23505') {
-        console.log(error);
         throw new HttpException(
           'Bad request, this company already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
+      }
         throw new HttpException(
           ` Bad request, company by ID=${companyId} not found`,
           HttpStatus.BAD_REQUEST
         );
-      }
     }
   }
 
   public async deleteById(companyId: number): Promise<void> {
     try {
-      const deletCompany = await this.companyRepository.deleteById(companyId);
-      if (!deletCompany) {
+      const deletedCompany = await this.companyRepository.deleteById(companyId);
+      if (!deletedCompany) {
         throw new Error();
-      } else {
       }
     } catch (error) {
       throw new HttpException(

@@ -42,9 +42,8 @@ export class TaskService {
           'Bad request, this task already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -79,26 +78,23 @@ export class TaskService {
       }
     } catch (error) {
       if (error.code == '23505') {
-        console.log(error);
         throw new HttpException(
           'Bad request, this task already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
+      }
         throw new HttpException(
           ` Bad request, task by ID=${taskId} not found`,
           HttpStatus.BAD_REQUEST
         );
-      }
     }
   }
 
   public async deleteById(taskId: number): Promise<void> {
     try {
-      const deletTask = await this.taskRepository.deleteById(taskId);
-      if (!deletTask) {
+      const deletedTask = await this.taskRepository.deleteById(taskId);
+      if (!deletedTask) {
         throw new Error();
-      } else {
       }
     } catch (error) {
       throw new HttpException(

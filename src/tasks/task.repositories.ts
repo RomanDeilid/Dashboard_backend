@@ -27,12 +27,13 @@ export class TaskRepository extends Repository<Task> {
 
   public async updateById(
     taskId: number,
-    { name, status, description }: UpdateTaskDto
+    { name, status, description,estimated_date }: UpdateTaskDto
   ): Promise<number> {
     const update = await this.update(taskId, {
       name:name,
       status: status,
       description: description,
+      estimated_date: estimated_date,
     });
 
     return update.affected;

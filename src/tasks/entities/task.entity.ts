@@ -28,9 +28,15 @@ export class Task {
   status: string;
 
   @ApiProperty({ example: 'убери пробелы', description: ' описание задачи' })
-
   @Column({ type: 'varchar', length: 255 })
   description: string;
+
+  @ApiProperty({
+    example: '23.05.2024',
+    description: 'Крайний срок для выполнения задачи',
+  })
+  @Column()
+  estimated_date: Date;
 
   @ApiProperty({
     example: '23.05.2024',
