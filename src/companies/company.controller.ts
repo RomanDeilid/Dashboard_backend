@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Put,
-  HttpCode,
+  HttpCode, Query,
 } from '@nestjs/common';
 import { Company } from './entities/company.entity';
 import { CreateCompanyDto } from './dto/createCompanyDto';
@@ -20,11 +20,12 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
-  @ApiOperation({ summary: 'просмотр всех компании' })
+  @ApiOperation({ summary: 'просмотр всех компании user' })
   @ApiResponse({ status: 200, type: [Company] })
-  @Get()
-  public async findAll(): Promise<Company[]> {
-    return await this.companyService.findAll();
+  @Get('/user/:id')
+  public async findAll(@Param('id') id): Promise<Company[]> {
+
+    return await this.companyService.findAll(id);
   }
 
   @ApiOperation({ summary: 'просмотр одного компании по ID' })

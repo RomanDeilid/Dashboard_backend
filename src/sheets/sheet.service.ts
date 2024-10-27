@@ -12,8 +12,19 @@ export class SheetService {
     private sheetRepository: SheetRepository
   ) {}
 
-  public async findAll(): Promise<Sheet[]> {
-    return await this.sheetRepository.findAll();
+  public async findAll(companyId:number): Promise<Sheet[]> {
+    try {
+      const sheet =await this.sheetRepository.findAll(companyId);
+      if (!sheet) {
+        throw new Error();
+      }
+      return sheet;
+    } catch (error) {
+      throw new HttpException(
+          ` Bad request, company by ID=${companyId} not found`,
+          HttpStatus.BAD_REQUEST
+      );
+    }
   }
 
   public async findById(sheetId: number): Promise<Sheet> {
@@ -34,6 +45,7 @@ export class SheetService {
 
   public async createItem(createSheetDto: CreateSheetDto): Promise<Sheet> {
     try {
+
       return await this.sheetRepository.createItem(createSheetDto);
     } catch (error) {
       if (error.code == '23505') {
@@ -71,6 +83,34 @@ export class SheetService {
         );
     }
   }
+
+
+  public async updateStatusById(
+      sheetId: number,
+      updateSheetDto: UpdateSheetDto
+  ): Promise<void> {
+    try {
+      const updateSheet = await this.sheetRepository.updateStatusById(
+          sheetId,
+          updateSheetDto
+      );
+      if (!updateSheet) {
+        throw new Error();
+      }
+    } catch (error) {
+      if (error.code == '23505') {
+        throw new HttpException(
+            'Bad request, this sheet already exists',
+            HttpStatus.BAD_REQUEST
+        );
+      }
+      throw new HttpException(
+          ` Bad request, sheet by ID=${sheetId} not found`,
+          HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
 
   public async deleteById(sheetId: number): Promise<void> {
     try {
