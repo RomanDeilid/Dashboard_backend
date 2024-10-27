@@ -3,8 +3,31 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+/*
+const express = require("express");
+const cors = require("cors");
+
+
+const app = express();
+
+// app.use(
+//     cors({
+//         origin: "http://localhost:3000",
+//         optionsSuccessStatus: 200,
+//         // Some legacy browsers choke on 204
+//     })
+// );
+app.use(
+    cors({origin: 'http://localhost:3000', credentials: true})
+);
+*/
+
+
+
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -24,6 +47,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(3000);
+
+  const PORT = 3001;
+  await app.listen(PORT, () => {
+      console.log(`Example app listening at Port: ${PORT}`)
+  });
 }
 bootstrap();
