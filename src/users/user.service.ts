@@ -33,6 +33,25 @@ export class UserService {
     }
   }
 
+
+
+
+  public async  findByUsername(userName: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findByUsername(userName);
+      if (!user) {
+        throw new Error();
+      }
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+          ` Bad request, user by userName=${userName} not found`,
+          HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
   public async createItem(createUserDto: CreateUserDto): Promise<User> {
     try {
       return await this.userRepository.createItem(createUserDto);
@@ -46,6 +65,9 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+
+
 
   public async setRoleById(
     userId: number,

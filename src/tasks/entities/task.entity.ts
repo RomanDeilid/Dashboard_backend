@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Sheet } from '../../sheets/entities/sheet.entity';
 import {ApiProperty} from "@nestjs/swagger";
-import { TaskStatus } from '../../enums/tasks';
+import {Status} from "../../enums/status";
 @Unique(['name', 'sheet'])
 @Entity()
 export class Task {
@@ -24,7 +24,7 @@ export class Task {
   name: string;
 
   @ApiProperty({ example: 'Todo', description: 'статус задачи' })
-  @Column({ type: "enum",enum: TaskStatus, default: TaskStatus.TODO })
+  @Column({ type: "enum",enum: Status, default: Status.TODO  })
   status: string;
 
   @ApiProperty({ example: 'убери пробелы', description: ' описание задачи' })
