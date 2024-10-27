@@ -4,7 +4,7 @@ import { CreateTaskDto } from './dto/createTaskDto';
 import { UpdateTaskDto } from './dto/updateTaskDto';
 import { TaskRepository } from './task.repositories';
 import { InjectRepository } from '@nestjs/typeorm';
-import {TaskStatus} from "../enums/tasks";
+import {Status} from "../enums/status";
 
 @Injectable()
 export class TaskService {
@@ -16,6 +16,22 @@ export class TaskService {
   public async findAll(): Promise<Task[]> {
     return await this.taskRepository.findAll();
   }
+  public async findAllOneTopic(sheetId: number): Promise<Task[]> {
+    try {
+      const task =await this.taskRepository.findAllOneTopic(sheetId);
+      if (!task) {
+        throw new Error();
+      }
+
+      return task;
+    } catch (error) {
+      throw new HttpException(
+          ` Bad request, sheet by ID=${sheetId} not found`,
+          HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
 
   public async findById(taskId: number): Promise<Task> {
     try {
@@ -49,7 +65,7 @@ export class TaskService {
 
   public async setStatusById(
     taskId: number,
-    status : TaskStatus
+    status : Status
   ): Promise<void> {
     try {
       const setTask = await this.taskRepository.setStatusById(taskId, status);

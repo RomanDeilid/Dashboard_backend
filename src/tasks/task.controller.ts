@@ -27,6 +27,13 @@ export class TaskController {
     return await this.taskService.findAll();
   }
 
+  @ApiOperation({ summary: 'просмотр всех задач одной темы' })
+  @ApiResponse({ status: 200, type: [Task] })
+  @Get('/sheet/:id')
+  public async findAllOneTopic(@Param('id') sheetId: number): Promise<Task[]> {
+    return await this.taskService.findAllOneTopic(sheetId);
+  }
+
   @ApiOperation({ summary: 'просмотр одного задачи по ID' })
   @ApiResponse({ status: 200, type: Task })
   @Get('/:id')

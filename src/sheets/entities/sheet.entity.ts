@@ -11,6 +11,7 @@ import {
 
 import { Company } from '../../companies/entities/company.entity';
 import {ApiProperty} from "@nestjs/swagger";
+import {Status} from "../../enums/status";
 @Unique(['name', 'company'])
 @Entity()
 export class Sheet {
@@ -21,6 +22,11 @@ export class Sheet {
   @ApiProperty({ example: 'Roma', description: 'имя доски' })
   @Column({ type: 'varchar', length: 32})
   name: string;
+
+
+  @ApiProperty({ example: 'Todo', description: 'статус задачи' })
+  @Column({ type: "enum",enum: Status, default: Status.TODO })
+  status: string;
 
   @ApiProperty({ example: 'Задача по фронт для Ромы', description: 'описание доски задач' })
   @Column({ type: 'varchar', length: 255 })
