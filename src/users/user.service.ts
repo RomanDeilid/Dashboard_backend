@@ -33,6 +33,25 @@ export class UserService {
     }
   }
 
+
+
+
+  public async  findByUsername(userName: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findByUsername(userName);
+      if (!user) {
+        throw new Error();
+      }
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+          ` Bad request, user by userName=${userName} not found`,
+          HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
   public async createItem(createUserDto: CreateUserDto): Promise<User> {
     try {
       return await this.userRepository.createItem(createUserDto);
@@ -42,11 +61,13 @@ export class UserService {
           'Bad request, this user already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
-        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+
+
 
   public async setRoleById(
     userId: number,
@@ -79,26 +100,23 @@ export class UserService {
       }
     } catch (error) {
       if (error.code == '23505') {
-        console.log(error);
         throw new HttpException(
           'Bad request, this user already exists',
           HttpStatus.BAD_REQUEST
         );
-      } else {
+      }
         throw new HttpException(
           ` Bad request, user by ID=${userId} not found`,
           HttpStatus.BAD_REQUEST
         );
-      }
     }
   }
 
   public async deleteById(userId: number): Promise<void> {
     try {
-      const deletUser = await this.userRepository.deleteById(userId);
-      if (!deletUser) {
+      const deletedUser = await this.userRepository.deleteById(userId);
+      if (!deletedUser) {
         throw new Error();
-      } else {
       }
     } catch (error) {
       throw new HttpException(
