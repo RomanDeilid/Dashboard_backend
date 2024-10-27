@@ -21,7 +21,6 @@ import { UpdateUserRoleDto } from './dto/updateUserRoleDto';
 export class UserController {
   constructor(private userService: UserService) {}
 
-
   @ApiOperation({ summary: 'просмотр всех пользователей' })
   @ApiResponse({ status: 200, type: [User] })
   @Get()
@@ -50,7 +49,7 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @Param('id') userId: number
   ): Promise<void> {
-    await   this.userService.updateById(userId, updateUserDto);
+    await this.userService.updateById(userId, updateUserDto);
   }
 
   @ApiOperation({ summary: 'Задать роль для пользователя по ID' })
@@ -62,9 +61,6 @@ export class UserController {
   ): Promise<void> {
     await this.userService.setRoleById(userId, updateUserRole);
   }
-
-
-
 
   @ApiOperation({ summary: 'удаление пользователя по ID' })
   @ApiResponse({ status: 204 })
