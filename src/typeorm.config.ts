@@ -1,10 +1,5 @@
 import { DataSource } from 'typeorm';
-import {ConfigModule} from "@nestjs/config";
-
-ConfigModule.forRoot({
-  envFilePath: '.env',
-  isGlobal: true,
-})
+import { ConfigModule } from '@nestjs/config';
 
 const AppDataSource = new DataSource({
   type: 'postgres',

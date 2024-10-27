@@ -1,6 +1,5 @@
 import { Company } from '../../companies/entities/company.entity';
 import {
-  BeforeInsert, BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -10,7 +9,6 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../../enums/users';
-import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -23,7 +21,7 @@ export class User {
   username: string;
 
   @ApiProperty({ example: 'Xyz1723', description: 'Пароль' })
-  @Column({ type: 'varchar', length: 256, nullable:false })
+  @Column({ type: 'varchar', length: 16 })
   password: string;
 
   @ApiProperty({
@@ -40,18 +38,7 @@ export class User {
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToMany(() => Company, company => company.users,{ cascade: true })
+  @ManyToMany((type) => Company)
   @JoinTable()
-  companies: Company[];
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword() {
-    if (this.password) {
-      const saltRounds = 10;
-      this.password = await bcrypt.hash(this.password, saltRounds);
-    }
-  }
+  company: Company[];
 }
-
-
